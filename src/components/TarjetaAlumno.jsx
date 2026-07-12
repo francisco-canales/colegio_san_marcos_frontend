@@ -4,7 +4,7 @@
 
 import { useState } from 'react';
 
-function TarjetaAlumno({ nombre, grado, seccion, correo }) {
+function TarjetaAlumno({ id, nombre, grado, seccion, correo, onSeleccionar }) {
   const [matriculaActiva, setMatriculaActiva] = useState(true);
 
   const toggleMatricula = () => {
@@ -32,9 +32,18 @@ function TarjetaAlumno({ nombre, grado, seccion, correo }) {
         <button
           onClick={toggleMatricula}
           className={`btn-toggle ${matriculaActiva ? 'btn-desactivar' : 'btn-activar'}`}
+          style={{ marginRight: '0.5rem' }}
         >
           {matriculaActiva ? 'Desactivar matrícula' : 'Activar matrícula'}
         </button>
+        {onSeleccionar && (
+          <button
+            onClick={() => onSeleccionar(id)}
+            className="btn btn-ver-detalles"
+          >
+            Ver detalle
+          </button>
+        )}
       </div>
     </div>
   );

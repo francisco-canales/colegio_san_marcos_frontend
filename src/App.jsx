@@ -1,4 +1,4 @@
-
+import { useState } from 'react';
 import Encabezado from './components/Encabezado';
 import ListaAlumnos from './components/ListaAlumnos';
 import Contador from './components/Contador';
@@ -7,9 +7,12 @@ import PieDePagina from './components/PieDePagina';
 import CampoTexto from './components/CampoTexto';
 import MensajeBienvenida from './components/MensajeBienvenida';
 import SaludoPersonalizado from './components/SaludoPersonalizado';
+import DetalleAlumno from './components/DetalleAlumno';
 import './App.css';
 
 function App() {
+  const [idAlumnoSeleccionado, setIdAlumnoSeleccionado] = useState(null);
+
   const handleAlumnoGuardado = (nuevoAlumno) => {
     console.log('Nuevo alumno guardado:', nuevoAlumno);
   };
@@ -19,9 +22,18 @@ function App() {
       <Encabezado usuarioActivo="Admin García" />
 
       <main className="contenido-principal">
+        {idAlumnoSeleccionado && (
+          <section className="seccion">
+            <DetalleAlumno
+              idAlumno={idAlumnoSeleccionado}
+              onCerrar={() => setIdAlumnoSeleccionado(null)}
+            />
+          </section>
+        )}
+
         <section className="seccion">
           <h2>Gestión de Alumnos</h2>
-          <ListaAlumnos />
+          <ListaAlumnos onSeleccionar={setIdAlumnoSeleccionado} />
         </section>
 
         <section className="seccion">
@@ -33,8 +45,8 @@ function App() {
         </section>
 
         <section className="seccion ejemplos-clase-4">
-          <h2>Ejemplos de Clase #4 (Estado y useEffect)</h2>
-          
+          <h2>Ejemplos de Clase vic. (Estado y useEffect)</h2>
+
           <div className="ejemplo-bloque">
             <h3>Campo de Texto Controlado</h3>
             <CampoTexto />

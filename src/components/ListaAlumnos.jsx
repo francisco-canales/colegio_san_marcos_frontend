@@ -1,31 +1,37 @@
-
 import { useState, useEffect } from 'react';
 import TarjetaAlumno from './TarjetaAlumno';
-import { alumnosSimulados } from '../datos/alumnos';
+import { obtenerAlumnos } from '../services/alumnosService';
 
-function ListaAlumnos() {
+function ListaAlumnos({ onSeleccionar }) {
   const [alumnos, setAlumnos] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [busqueda, setBusqueda] = useState('');
   const [gradoFiltro, setGradoFiltro] = useState('Todos');
 
   useEffect(() => {
-    setCargando(true);
-    setError(false);
-    const temporizador = setTimeout(() => {
+    let cancelado = false;
+    const cargarAlumnos = async () => {
       try {
-        setAlumnos(alumnosSimulados);
-        setCargando(false);
-      } catch {
-        setError(true);
-        setCargando(false);
+        setCargando(true);
+        setError(null);
+        const datos = await obtenerAlumnos();
+        if (!cancelado) {
+          setAlumnos(datos);
+        }
+      } catch (err) {
+        if (!cancelado) {
+          setError(err.response?.data?.message || 'Error al cargar los alumnos.');
+        }
+      } finally {
+        if (!cancelado) {
+          setCargando(false);
+        }
       }
-    }, 1200);
-
+    };
+    cargarAlumnos();
     return () => {
-      clearTimeout(temporizador);
-      console.log('ListaAlumnos: carga cancelada o componente desmontado');
+      cancelado = true;
     };
   }, []);
 
@@ -56,7 +62,7 @@ function ListaAlumnos() {
         <h2>Listado de Alumnos</h2>
         <div className="alerta alerta-error">
           <span className="error-icono">⚠️</span>
-          <span>Ocurrió un error al cargar los alumnos. Intenta recargar la página.</span>
+          <span>{error}</span>
         </div>
       </section>
     );
@@ -110,10 +116,12 @@ function ListaAlumnos() {
           {alumnosFiltrados.map((alumno) => (
             <TarjetaAlumno
               key={alumno.id}
+              id={alumno.id}
               nombre={alumno.nombre}
               grado={alumno.grado}
               seccion={alumno.seccion}
               correo={alumno.correo}
+              onSeleccionar={onSeleccionar}
             />
           ))}
         </div>
