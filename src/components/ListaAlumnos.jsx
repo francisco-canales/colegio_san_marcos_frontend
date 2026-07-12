@@ -1,13 +1,3 @@
-/**
- * Componente ListaAlumnos
- * Ejemplo de composición de componentes y renderizado de listas
- * 
- * Conceptos demostrados:
- * - Composición: usando otros componentes dentro de este
- * - Array.map() para renderizar listas
- * - Prop 'key' requerida para listas (usa identificador único, no índice)
- * - Flujo de datos unidireccional: padre -> hijo
- */
 
 import { useState, useEffect } from 'react';
 import TarjetaAlumno from './TarjetaAlumno';
@@ -87,7 +77,7 @@ function ListaAlumnos() {
             className="input input-busqueda"
           />
         </div>
-        
+
         <div className="filtros-control">
           <span className="filtro-icono">🎓</span>
           <select

@@ -1,13 +1,5 @@
 /**
- * Componente FormularioAlumno
- * Ejemplo avanzado: estado con múltiples campos
- * 
- * Conceptos demostrados:
- * - Múltiples estados con useState
- * - Controlled inputs (el valor del input está vinculado al estado)
- * - Manejadores de eventos (onChange, onSubmit)
- * - Validación básica
- * - Responsabilidad única del componente
+ 
  */
 
 import { useState } from 'react';
@@ -57,7 +49,7 @@ function FormularioAlumno({ onAlumnoGuardado }) {
 
     // Si la validación pasó, crear objeto con datos
     const nuevoAlumno = { nombre, grado, seccion, correo };
-    
+
     // Llamar a función del padre si existe
     if (onAlumnoGuardado) {
       onAlumnoGuardado(nuevoAlumno);
@@ -69,7 +61,7 @@ function FormularioAlumno({ onAlumnoGuardado }) {
     setGrado('');
     setSeccion('A');
     setCorreo('');
-    
+
     // Ocultar mensaje de éxito después de 3 segundos
     setTimeout(() => setExito(false), 3000);
   };

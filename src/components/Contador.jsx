@@ -1,13 +1,6 @@
 /**
  * Componente Contador
- * Ejemplo de estado con hooks
- * 
- * Conceptos demostrados:
- * - Hook useState para manejar estado
- * - Estado local que persiste entre renderizados
- * - onClick con manejador de eventos (camelCase)
- * - Re-renderizado automático cuando el estado cambia
- * - Closure: la función setCount "recuerda" qué estado actualiza
+
  */
 
 import { useState } from 'react';
@@ -16,17 +9,17 @@ function Contador() {
   // useState retorna [valorActual, función para actualizar]
   // El nombre 'count' y 'setCount' es una convención
   const [count, setCount] = useState(0);
-  
+
   // Función manejadora del evento click
   // Usa función flecha para mantener el contexto 'this'
   const incrementar = () => {
     setCount(count + 1);
   };
-  
+
   const decrementar = () => {
     setCount(count - 1);
   };
-  
+
   const reiniciar = () => {
     setCount(0);
   };
@@ -34,7 +27,7 @@ function Contador() {
   return (
     <section className="contador">
       <h2>Contador de Clics</h2>
-      
+
       <div className="contador-display">
         {/* 
           Interpolación de variables en JSX con {}

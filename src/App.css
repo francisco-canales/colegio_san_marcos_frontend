@@ -1,5 +1,3 @@
-/* App.css - Diseño minimalista estilo HTML clásico y limpio */
-
 * {
   margin: 0;
   padding: 0;
@@ -368,7 +366,34 @@ body {
   .botones {
     flex-direction: row;
   }
+
   .btn {
     width: auto;
   }
+}
+
+/* Ejemplos de Clase Vic */
+.ejemplos-clase-4 {
+  margin-top: 2rem;
+}
+
+.ejemplo-bloque {
+  border: 1px dashed #000000;
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ejemplo-bloque h3 {
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  text-decoration: underline;
+}
+
+.ejemplo-bloque p {
+  margin-top: 0.5rem;
+}
+
+.ejemplo-bloque input {
+  margin-bottom: 0.5rem;
 }
