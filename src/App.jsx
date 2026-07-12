@@ -1,4 +1,4 @@
-import { useState } from 'react';
+
 import Encabezado from './components/Encabezado';
 import ListaAlumnos from './components/ListaAlumnos';
 import Contador from './components/Contador';
@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div className="app">
-      <Encabezado />
+      <Encabezado usuarioActivo="Admin García" />
 
       <main className="contenido-principal">
         <section className="seccion">
