@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import TarjetaAlumno from './TarjetaAlumno';
 import { obtenerAlumnos } from '../services/alumnosService';
+import { manejarError } from '../utils/manejarError';
 
-function ListaAlumnos({ onSeleccionar }) {
+const ELEMENTOS_POR_PAGINA = 8;
+
+function ListaAlumnos({ onSeleccionar, onEditar, recargar }) {
   const [alumnos, setAlumnos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
   const [busqueda, setBusqueda] = useState('');
   const [gradoFiltro, setGradoFiltro] = useState('Todos');
+  const [paginaActual, setPaginaActual] = useState(1);
 
   useEffect(() => {
     let cancelado = false;
@@ -21,7 +25,7 @@ function ListaAlumnos({ onSeleccionar }) {
         }
       } catch (err) {
         if (!cancelado) {
-          setError(err.response?.data?.message || 'Error al cargar los alumnos.');
+          setError(manejarError(err));
         }
       } finally {
         if (!cancelado) {
@@ -33,16 +37,25 @@ function ListaAlumnos({ onSeleccionar }) {
     return () => {
       cancelado = true;
     };
-  }, []);
+  }, [recargar]);
+
+  useEffect(() => {
+    setPaginaActual(1);
+  }, [busqueda, gradoFiltro]);
 
   const alumnosFiltrados = alumnos.filter((alumno) => {
-    const coincideNombre = alumno.nombre
+    const coincideNombre = `${alumno.nombre} ${alumno.apellido}`
       .toLowerCase()
       .includes(busqueda.toLowerCase());
     const coincideGrado =
       gradoFiltro === 'Todos' || alumno.grado === gradoFiltro;
     return coincideNombre && coincideGrado;
   });
+
+  const totalPaginas = Math.ceil(alumnosFiltrados.length / ELEMENTOS_POR_PAGINA);
+  const indiceInicio = (paginaActual - 1) * ELEMENTOS_POR_PAGINA;
+  const indiceFin = indiceInicio + ELEMENTOS_POR_PAGINA;
+  const alumnosPagina = alumnosFiltrados.slice(indiceInicio, indiceFin);
 
   if (cargando) {
     return (
@@ -77,7 +90,7 @@ function ListaAlumnos({ onSeleccionar }) {
           <span className="filtro-icono">🔍</span>
           <input
             type="text"
-            placeholder="Buscar alumno por nombre..."
+            placeholder="Buscar por nombre o apellido..."
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
             className="input input-busqueda"
@@ -101,29 +114,69 @@ function ListaAlumnos({ onSeleccionar }) {
 
       <div className="resultados-info">
         <p>
-          Mostrando <strong>{alumnosFiltrados.length}</strong> de{' '}
-          <strong>{alumnos.length}</strong> alumnos
+          Mostrando{' '}
+          <strong>{alumnosPagina.length}</strong> de{' '}
+          <strong>{alumnosFiltrados.length}</strong> alumnos
+          {gradoFiltro !== 'Todos' || busqueda !== ''
+            ? ' (filtrados)'
+            : ` — Total: ${alumnos.length}`}
         </p>
       </div>
 
-      {alumnosFiltrados.length === 0 ? (
+      {alumnos.length === 0 ? (
+        <div className="alumnos-vacio">
+          <span className="vacio-icono">📭</span>
+          <p>No hay alumnos registrados en el sistema.</p>
+        </div>
+      ) : alumnosFiltrados.length === 0 ? (
         <div className="alumnos-vacio">
           <span className="vacio-icono">📭</span>
           <p>No se encontraron alumnos con los filtros aplicados.</p>
         </div>
       ) : (
         <div className="contenedor-tarjetas">
-          {alumnosFiltrados.map((alumno) => (
+          {alumnosPagina.map((alumno) => (
             <TarjetaAlumno
               key={alumno.id}
               id={alumno.id}
               nombre={alumno.nombre}
+              apellido={alumno.apellido}
               grado={alumno.grado}
               seccion={alumno.seccion}
               correo={alumno.correo}
               onSeleccionar={onSeleccionar}
+              onEditar={onEditar}
             />
           ))}
+        </div>
+      )}
+
+      {totalPaginas > 1 && (
+        <div className="botones" style={{ marginTop: '1rem', justifyContent: 'center' }}>
+          <button
+            className="btn"
+            onClick={() => setPaginaActual((anterior) => anterior - 1)}
+            disabled={paginaActual === 1}
+          >
+            Anterior
+          </button>
+          {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((pagina) => (
+            <button
+              key={pagina}
+              className="btn"
+              onClick={() => setPaginaActual(pagina)}
+              disabled={pagina === paginaActual}
+            >
+              {pagina}
+            </button>
+          ))}
+          <button
+            className="btn"
+            onClick={() => setPaginaActual((anterior) => anterior + 1)}
+            disabled={paginaActual === totalPaginas}
+          >
+            Siguiente
+          </button>
         </div>
       )}
     </section>

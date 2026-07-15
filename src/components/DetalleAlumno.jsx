@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { obtenerAlumnoPorId } from '../services/alumnosService';
+import { manejarError } from '../utils/manejarError';
 
 function DetalleAlumno({ idAlumno, onCerrar }) {
   const [alumno, setAlumno] = useState(null);
@@ -18,7 +19,7 @@ function DetalleAlumno({ idAlumno, onCerrar }) {
         }
       } catch (err) {
         if (!cancelado) {
-          setError(err.response?.data?.message || 'Error al cargar el detalle del alumno.');
+          setError(manejarError(err));
         }
       } finally {
         if (!cancelado) {
@@ -45,7 +46,7 @@ function DetalleAlumno({ idAlumno, onCerrar }) {
   return (
     <div className="detalle-alumno-box" style={{ border: '1px solid #000000', padding: '1rem', marginTop: '1rem' }}>
       <h2>Detalle del Alumno</h2>
-      <p><strong>Nombre:</strong> {alumno.nombre}</p>
+      <p><strong>Nombre:</strong> {alumno.nombre} {alumno.apellido}</p>
       <p><strong>Grado:</strong> {alumno.grado} / Sección {alumno.seccion}</p>
       {alumno.correo && <p><strong>Correo:</strong> {alumno.correo}</p>}
       {alumno.duiResponsable && <p><strong>DUI del responsable:</strong> {alumno.duiResponsable}</p>}
