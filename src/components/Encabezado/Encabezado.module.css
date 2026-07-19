@@ -5,6 +5,14 @@
   margin-bottom: var(--espaciado-lg);
 }
 
+.contenido {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--espaciado-md);
+}
+
 .titulo {
   font-size: 2rem;
   font-weight: bold;
@@ -15,7 +23,12 @@
 .subtitulo {
   font-size: 1rem;
   color: var(--color-texto-secundario);
-  margin-bottom: var(--espaciado-sm);
+}
+
+.derecha {
+  display: flex;
+  align-items: center;
+  gap: var(--espaciado-md);
 }
 
 .usuarioBadge {
@@ -27,6 +40,20 @@
   border: 1px solid var(--color-borde);
   border-radius: var(--radio-borde);
   font-size: 0.9rem;
-  margin-top: var(--espaciado-sm);
   color: var(--color-texto-secundario);
+}
+
+.btnCerrarSesion {
+  padding: var(--espaciado-sm) var(--espaciado-md);
+  border: 1px solid var(--color-peligro);
+  border-radius: var(--radio-borde);
+  background-color: var(--color-superficie);
+  color: var(--color-peligro);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.btnCerrarSesion:hover {
+  background-color: #fef2f2;
 }

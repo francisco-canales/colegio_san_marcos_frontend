@@ -1,5 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Encabezado from './components/Encabezado/Encabezado';
+import ProtegerRuta from './components/ProtegerRuta/ProtegerRuta';
+import PaginaLogin from './pages/PaginaLogin/PaginaLogin';
 import PaginaListaAlumnos from './pages/PaginaListaAlumnos/PaginaListaAlumnos';
 import PaginaDetalleAlumno from './pages/PaginaDetalleAlumno/PaginaDetalleAlumno';
 import PaginaCrearAlumno from './pages/PaginaCrearAlumno/PaginaCrearAlumno';
@@ -9,13 +11,14 @@ import styles from './App.module.css';
 function App() {
   return (
     <div className={styles.app}>
-      <Encabezado usuarioActivo="Vic Flores" />
+      <Encabezado />
       <main className={styles.contenido}>
         <Routes>
-          <Route path="/" element={<PaginaListaAlumnos />} />
-          <Route path="/alumnos/nuevo" element={<PaginaCrearAlumno />} />
-          <Route path="/alumnos/:id" element={<PaginaDetalleAlumno />} />
-          <Route path="/alumnos/:id/editar" element={<PaginaEditarAlumno />} />
+          <Route path="/login" element={<PaginaLogin />} />
+          <Route path="/" element={<ProtegerRuta><PaginaListaAlumnos /></ProtegerRuta>} />
+          <Route path="/alumnos/nuevo" element={<ProtegerRuta><PaginaCrearAlumno /></ProtegerRuta>} />
+          <Route path="/alumnos/:id" element={<ProtegerRuta><PaginaDetalleAlumno /></ProtegerRuta>} />
+          <Route path="/alumnos/:id/editar" element={<ProtegerRuta><PaginaEditarAlumno /></ProtegerRuta>} />
         </Routes>
       </main>
     </div>

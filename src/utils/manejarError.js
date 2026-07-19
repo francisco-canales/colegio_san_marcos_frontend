@@ -5,18 +5,20 @@ export const manejarError = (error) => {
 
   const { status, data } = error.response;
 
+  const mensaje = data?.error || data?.message;
+
   switch (status) {
     case 400:
-      return data?.message || 'Los datos enviados no son válidos.';
+      return mensaje || 'Los datos enviados no son válidos.';
     case 401:
-      return 'Tu sesión ha expirado. Por favor, vuelve a iniciar sesión.';
+      return mensaje || 'Tu sesión ha expirado. Por favor, vuelve a iniciar sesión.';
     case 403:
-      return 'No tienes permisos para realizar esta acción.';
+      return mensaje || 'No tienes permisos para realizar esta acción.';
     case 404:
-      return data?.message || 'El recurso solicitado no fue encontrado.';
+      return mensaje || 'El recurso solicitado no fue encontrado.';
     case 500:
-      return 'Ocurrió un error en el servidor. Intenta de nuevo más tarde.';
+      return mensaje || 'Ocurrió un error en el servidor. Intenta de nuevo más tarde.';
     default:
-      return data?.message || 'Ocurrió un error inesperado.';
+      return mensaje || 'Ocurrió un error inesperado.';
   }
 };
