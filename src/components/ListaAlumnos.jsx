@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TarjetaAlumno from './TarjetaAlumno';
 import { obtenerAlumnos } from '../services/alumnosService';
 import { manejarError } from '../utils/manejarError';
 
 const ELEMENTOS_POR_PAGINA = 8;
 
-function ListaAlumnos({ onSeleccionar, onEditar, recargar }) {
+function ListaAlumnos({ recargar }) {
+  const navigate = useNavigate();
   const [alumnos, setAlumnos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
@@ -144,8 +146,8 @@ function ListaAlumnos({ onSeleccionar, onEditar, recargar }) {
               grado={alumno.grado}
               seccion={alumno.seccion}
               correo={alumno.correo}
-              onSeleccionar={onSeleccionar}
-              onEditar={onEditar}
+              onSeleccionar={(id) => navigate(`/alumnos/${id}`)}
+              onEditar={(alumno) => navigate(`/alumnos/${alumno.id}/editar`)}
             />
           ))}
         </div>
