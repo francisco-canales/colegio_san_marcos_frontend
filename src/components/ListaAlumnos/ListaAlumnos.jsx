@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TarjetaAlumno from './TarjetaAlumno';
-import { obtenerAlumnos } from '../services/alumnosService';
-import { manejarError } from '../utils/manejarError';
+import TarjetaAlumno from '../TarjetaAlumno/TarjetaAlumno';
+import { obtenerAlumnos } from '../../services/alumnosService';
+import { manejarError } from '../../utils/manejarError';
+import styles from './ListaAlumnos.module.css';
 
 const ELEMENTOS_POR_PAGINA = 8;
 
@@ -61,50 +62,42 @@ function ListaAlumnos({ recargar }) {
 
   if (cargando) {
     return (
-      <section className="lista-alumnos loading-container">
-        <h2>Listado de Alumnos</h2>
-        <div className="cargando-spinner-box">
-          <div className="spinner"></div>
-          <p className="cargando-texto">Cargando listado de alumnos...</p>
-        </div>
+      <section className={styles.seccion}>
+        <h2 className={styles.titulo}>Listado de Alumnos</h2>
+        <p className={styles.cargando}>Cargando listado de alumnos...</p>
       </section>
     );
   }
 
   if (error) {
     return (
-      <section className="lista-alumnos error-container">
-        <h2>Listado de Alumnos</h2>
-        <div className="alerta alerta-error">
-          <span className="error-icono">⚠️</span>
-          <span>{error}</span>
-        </div>
+      <section className={styles.seccion}>
+        <h2 className={styles.titulo}>Listado de Alumnos</h2>
+        <div className={styles.error}>{error}</div>
       </section>
     );
   }
 
   return (
-    <section className="lista-alumnos">
-      <h2>Listado de Alumnos</h2>
+    <section className={styles.seccion}>
+      <h2 className={styles.titulo}>Listado de Alumnos</h2>
 
-      <div className="filtros-seccion">
-        <div className="filtros-control">
-          <span className="filtro-icono">🔍</span>
+      <div className={styles.filtros}>
+        <div className={styles.filtroControl}>
           <input
             type="text"
             placeholder="Buscar por nombre o apellido..."
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
-            className="input input-busqueda"
+            className={styles.inputBusqueda}
           />
         </div>
 
-        <div className="filtros-control">
-          <span className="filtro-icono">🎓</span>
+        <div className={styles.filtroControl}>
           <select
             value={gradoFiltro}
             onChange={(e) => setGradoFiltro(e.target.value)}
-            className="input select-filtro"
+            className={styles.selectFiltro}
           >
             <option value="Todos">Todos los grados</option>
             <option value="7°">7°</option>
@@ -114,7 +107,7 @@ function ListaAlumnos({ recargar }) {
         </div>
       </div>
 
-      <div className="resultados-info">
+      <div className={styles.resultadosInfo}>
         <p>
           Mostrando{' '}
           <strong>{alumnosPagina.length}</strong> de{' '}
@@ -126,17 +119,15 @@ function ListaAlumnos({ recargar }) {
       </div>
 
       {alumnos.length === 0 ? (
-        <div className="alumnos-vacio">
-          <span className="vacio-icono">📭</span>
+        <div className={styles.vacio}>
           <p>No hay alumnos registrados en el sistema.</p>
         </div>
       ) : alumnosFiltrados.length === 0 ? (
-        <div className="alumnos-vacio">
-          <span className="vacio-icono">📭</span>
+        <div className={styles.vacio}>
           <p>No se encontraron alumnos con los filtros aplicados.</p>
         </div>
       ) : (
-        <div className="contenedor-tarjetas">
+        <div className={styles.lista}>
           {alumnosPagina.map((alumno) => (
             <TarjetaAlumno
               key={alumno.id}
@@ -154,9 +145,9 @@ function ListaAlumnos({ recargar }) {
       )}
 
       {totalPaginas > 1 && (
-        <div className="botones" style={{ marginTop: '1rem', justifyContent: 'center' }}>
+        <div className={styles.paginacion}>
           <button
-            className="btn"
+            className={styles.btnPagina}
             onClick={() => setPaginaActual((anterior) => anterior - 1)}
             disabled={paginaActual === 1}
           >
@@ -165,7 +156,7 @@ function ListaAlumnos({ recargar }) {
           {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((pagina) => (
             <button
               key={pagina}
-              className="btn"
+              className={`${styles.btnPagina} ${pagina === paginaActual ? styles.btnPaginaActivo : ''}`}
               onClick={() => setPaginaActual(pagina)}
               disabled={pagina === paginaActual}
             >
@@ -173,7 +164,7 @@ function ListaAlumnos({ recargar }) {
             </button>
           ))}
           <button
-            className="btn"
+            className={styles.btnPagina}
             onClick={() => setPaginaActual((anterior) => anterior + 1)}
             disabled={paginaActual === totalPaginas}
           >

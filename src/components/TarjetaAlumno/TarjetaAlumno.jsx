@@ -1,8 +1,5 @@
-/**
- 
- */
-
 import { useState } from 'react';
+import styles from './TarjetaAlumno.module.css';
 
 function TarjetaAlumno({ id, nombre, apellido, grado, seccion, correo, onSeleccionar, onEditar }) {
   const [matriculaActiva, setMatriculaActiva] = useState(true);
@@ -11,35 +8,34 @@ function TarjetaAlumno({ id, nombre, apellido, grado, seccion, correo, onSelecci
     setMatriculaActiva((anterior) => !anterior);
   };
 
-  const info = `${grado} - Sección ${seccion}`;
+  const info = `${grado} - Seccion ${seccion}`;
 
   return (
-    <div className={`tarjeta-alumno ${matriculaActiva ? 'estado-activa' : 'estado-inactiva'}`}>
-      <div className="tarjeta-contenido">
-        <h2>{nombre} {apellido}</h2>
-        <p className="grado-seccion">
+    <div className={`${styles.tarjeta} ${matriculaActiva ? styles.estadoActivo : styles.estadoInactivo}`}>
+      <div className={styles.contenido}>
+        <h2 className={styles.nombre}>{nombre} {apellido}</h2>
+        <p className={styles.info}>
           <strong>Grado:</strong> {info}
         </p>
-        {correo && <p className="correo">📧 {correo}</p>}
-        <p className="estado-matricula">
-          Matrícula:{' '}
-          <span className={`badge ${matriculaActiva ? 'badge-activa' : 'badge-inactiva'}`}>
+        {correo && <p className={styles.correo}>📧 {correo}</p>}
+        <p className={styles.estadoMatricula}>
+          Matricula:{' '}
+          <span className={matriculaActiva ? styles.badgeActivo : styles.badgeInactivo}>
             {matriculaActiva ? 'Activa' : 'Inactiva'}
           </span>
         </p>
       </div>
-      <div className="tarjeta-acciones">
+      <div className={styles.acciones}>
         <button
           onClick={toggleMatricula}
-          className={`btn-toggle ${matriculaActiva ? 'btn-desactivar' : 'btn-activar'}`}
-          style={{ marginRight: '0.5rem' }}
+          className={`${styles.btnToggle} ${matriculaActiva ? styles.btnDesactivar : styles.btnActivar}`}
         >
-          {matriculaActiva ? 'Desactivar matrícula' : 'Activar matrícula'}
+          {matriculaActiva ? 'Desactivar matricula' : 'Activar matricula'}
         </button>
         {onSeleccionar && (
           <button
             onClick={() => onSeleccionar(id)}
-            className="btn btn-ver-detalles"
+            className={styles.btnAccion}
           >
             Ver detalle
           </button>
@@ -47,8 +43,7 @@ function TarjetaAlumno({ id, nombre, apellido, grado, seccion, correo, onSelecci
         {onEditar && (
           <button
             onClick={() => onEditar({ id, nombre, apellido, grado, seccion })}
-            className="btn"
-            style={{ marginLeft: '0.5rem' }}
+            className={styles.btnAccion}
           >
             Editar
           </button>

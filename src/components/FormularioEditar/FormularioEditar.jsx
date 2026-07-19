@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { actualizarAlumno } from '../services/alumnosService';
-import { manejarError } from '../utils/manejarError';
+import { actualizarAlumno } from '../../services/alumnosService';
+import { manejarError } from '../../utils/manejarError';
+import styles from './FormularioEditar.module.css';
 
 const validarCampos = (campos) => {
   const errores = {};
@@ -14,7 +15,7 @@ const validarCampos = (campos) => {
     errores.grado = 'Debes seleccionar un grado.';
   }
   if (campos.seccion === '') {
-    errores.seccion = 'Debes seleccionar una sección.';
+    errores.seccion = 'Debes seleccionar una seccion.';
   }
   return errores;
 };
@@ -69,13 +70,13 @@ function FormularioEditar({ alumnoEditar, onGuardado, onCancelar }) {
   };
 
   return (
-    <section className="formulario-alumno">
-      <h2>Editar Alumno</h2>
+    <section className={styles.formulario}>
+      <h2 className={styles.titulo}>Editar Alumno</h2>
 
-      {errorServidor && <div className="alerta alerta-error">{errorServidor}</div>}
+      {errorServidor && <div className={`${styles.alerta} ${styles.alertaError}`}>{errorServidor}</div>}
 
-      <form className="formulario" onSubmit={(e) => { e.preventDefault(); handleGuardar(); }}>
-        <div className="grupo-formulario">
+      <form onSubmit={(e) => { e.preventDefault(); handleGuardar(); }}>
+        <div className={styles.grupoFormulario}>
           <label htmlFor="nombre">Nombre:</label>
           <input
             id="nombre"
@@ -84,13 +85,13 @@ function FormularioEditar({ alumnoEditar, onGuardado, onCancelar }) {
             value={campos.nombre}
             onChange={handleChange}
             disabled={enviando}
-            placeholder="Ej: María"
-            className="input"
+            placeholder="Ej: Maria"
+            className={styles.input}
           />
-          {errores.nombre && <div className="alerta alerta-error">{errores.nombre}</div>}
+          {errores.nombre && <div className={`${styles.alerta} ${styles.alertaError}`}>{errores.nombre}</div>}
         </div>
 
-        <div className="grupo-formulario">
+        <div className={styles.grupoFormulario}>
           <label htmlFor="apellido">Apellido:</label>
           <input
             id="apellido"
@@ -99,13 +100,13 @@ function FormularioEditar({ alumnoEditar, onGuardado, onCancelar }) {
             value={campos.apellido}
             onChange={handleChange}
             disabled={enviando}
-            placeholder="Ej: Fernández"
-            className="input"
+            placeholder="Ej: Fernandez"
+            className={styles.input}
           />
-          {errores.apellido && <div className="alerta alerta-error">{errores.apellido}</div>}
+          {errores.apellido && <div className={`${styles.alerta} ${styles.alertaError}`}>{errores.apellido}</div>}
         </div>
 
-        <div className="grupo-formulario">
+        <div className={styles.grupoFormulario}>
           <label htmlFor="grado">Grado:</label>
           <select
             id="grado"
@@ -113,38 +114,38 @@ function FormularioEditar({ alumnoEditar, onGuardado, onCancelar }) {
             value={campos.grado}
             onChange={handleChange}
             disabled={enviando}
-            className="input"
+            className={styles.input}
           >
             <option value="">Selecciona un grado</option>
             <option value="7°">7°</option>
             <option value="8°">8°</option>
             <option value="9°">9°</option>
           </select>
-          {errores.grado && <div className="alerta alerta-error">{errores.grado}</div>}
+          {errores.grado && <div className={`${styles.alerta} ${styles.alertaError}`}>{errores.grado}</div>}
         </div>
 
-        <div className="grupo-formulario">
-          <label htmlFor="seccion">Sección:</label>
+        <div className={styles.grupoFormulario}>
+          <label htmlFor="seccion">Seccion:</label>
           <select
             id="seccion"
             name="seccion"
             value={campos.seccion}
             onChange={handleChange}
             disabled={enviando}
-            className="input"
+            className={styles.input}
           >
-            <option value="">Selecciona una sección</option>
+            <option value="">Selecciona una seccion</option>
             <option value="A">A</option>
             <option value="B">B</option>
           </select>
-          {errores.seccion && <div className="alerta alerta-error">{errores.seccion}</div>}
+          {errores.seccion && <div className={`${styles.alerta} ${styles.alertaError}`}>{errores.seccion}</div>}
         </div>
 
-        <div className="botones">
-          <button type="submit" className="btn btn-primario" disabled={enviando}>
+        <div className={styles.botones}>
+          <button type="submit" className={styles.btnPrimario} disabled={enviando}>
             {enviando ? 'Guardando...' : 'Actualizar alumno'}
           </button>
-          <button type="button" className="btn" onClick={onCancelar} disabled={enviando}>
+          <button type="button" className={styles.btnSecundario} onClick={onCancelar} disabled={enviando}>
             Cancelar
           </button>
         </div>

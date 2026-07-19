@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import FormularioEditar from '../components/FormularioEditar';
-import { obtenerAlumnoPorId } from '../services/alumnosService';
-import { manejarError } from '../utils/manejarError';
+import FormularioEditar from '../../components/FormularioEditar/FormularioEditar';
+import { obtenerAlumnoPorId } from '../../services/alumnosService';
+import { manejarError } from '../../utils/manejarError';
 
 function PaginaEditarAlumno() {
   const { id } = useParams();
@@ -31,27 +31,23 @@ function PaginaEditarAlumno() {
     };
   }, [id]);
 
-  if (cargando) return <p className="cargando-texto">Cargando datos del alumno...</p>;
+  if (cargando) return <p>Cargando datos del alumno...</p>;
 
   if (error) {
     return (
-      <section className="seccion">
-        <div className="alerta alerta-error">{error}</div>
-        <button onClick={() => navigate('/')} className="btn" style={{ marginTop: '0.5rem' }}>
-          Volver al listado
-        </button>
-      </section>
+      <div>
+        <p>{error}</p>
+        <button onClick={() => navigate('/')}>Volver al listado</button>
+      </div>
     );
   }
 
   return (
-    <section className="seccion">
-      <FormularioEditar
-        alumnoEditar={alumno}
-        onGuardado={() => navigate('/')}
-        onCancelar={() => navigate('/')}
-      />
-    </section>
+    <FormularioEditar
+      alumnoEditar={alumno}
+      onGuardado={() => navigate('/')}
+      onCancelar={() => navigate('/')}
+    />
   );
 }
 

@@ -1,0 +1,32 @@
+.encabezado {
+  background-color: var(--color-superficie);
+  padding: var(--espaciado-lg) var(--espaciado-md);
+  border-bottom: 2px solid var(--color-borde);
+  margin-bottom: var(--espaciado-lg);
+}
+
+.titulo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--color-texto-principal);
+  margin-bottom: var(--espaciado-sm);
+}
+
+.subtitulo {
+  font-size: 1rem;
+  color: var(--color-texto-secundario);
+  margin-bottom: var(--espaciado-sm);
+}
+
+.usuarioBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaciado-sm);
+  background-color: var(--color-fondo);
+  padding: var(--espaciado-sm) var(--espaciado-md);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  font-size: 0.9rem;
+  margin-top: var(--espaciado-sm);
+  color: var(--color-texto-secundario);
+}

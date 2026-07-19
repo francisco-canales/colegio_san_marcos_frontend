@@ -1,14 +1,14 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import DetalleAlumno from '../components/DetalleAlumno';
+import DetalleAlumno from '../../components/DetalleAlumno/DetalleAlumno';
 
 function PaginaDetalleAlumno() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   return (
-    <section className="seccion">
+    <div>
       <DetalleAlumno idAlumno={Number(id)} onCerrar={() => navigate('/')} />
-    </section>
+    </div>
   );
 }
 
